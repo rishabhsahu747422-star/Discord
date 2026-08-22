@@ -1,1 +1,74 @@
-import express from "express";
+import mongoose from "mongoose";
+
+const userSchema = new mongoose.Schema(
+  {
+    fullname: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 25,
+    },
+    username: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 50,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    mobile: {
+      type: String,
+      required: true,
+      sparse: true,
+    },
+    password: {
+      type: String,
+      minlength: 6,
+    },
+    dob: {
+      type: Date,
+    },
+    profile_pic: {
+      type: String,
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+    authProvider: {
+      type: String,
+      enum: ["local,'google"],
+      default: "local",
+    },
+    server: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "servers",
+      },
+    ],
+    friends: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+      },
+    ],
+  },
+  { timestamps: true },
+);
+
+userSchema.pre("save", function () {
+  if (!this.password || !this.password.isModified("password"))
+    return (this.password = bcrypt.hashsync(this.password, 10));
+});
+
+userSchema.methods.comparePass = function (password) {
+  return bcrypt.compareSync(this.password, password);
+};
+
+const userModel = mongoose.model("users", userSchema);
+
+export default userModel;
