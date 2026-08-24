@@ -1,3 +1,5 @@
+import sendFiles from "../services/storage.service";
+
 const register = () => {
   const { username, email, password, dob, fullname, mobile_no } = req.body;
 
@@ -10,4 +12,8 @@ const register = () => {
     });
 
   let uploadImage;
+
+  if (file) {
+    uploadImage = sendFiles(file.buffer, file.originalName);
+  }
 };
