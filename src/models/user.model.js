@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,7 +20,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    mobile: {
+    mobile_no: {
       type: String,
       required: true,
       sparse: true,
@@ -41,7 +42,7 @@ const userSchema = new mongoose.Schema(
     },
     authProvider: {
       type: String,
-      enum: ["local,'google"],
+      enum: ["local", "google"],
       default: "local",
     },
     server: [
@@ -61,12 +62,12 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.pre("save", function () {
-  if (!this.password || !this.password.isModified("password"))
-    return (this.password = bcrypt.hashsync(this.password, 10));
+  if (!this.password || this.isModified("password"))
+    return (this.password = bcrypt.hashSync(this.password, 10));
 });
 
 userSchema.methods.comparePass = function (password) {
-  return bcrypt.compareSync(this.password, password);
+  return bcrypt.compareSync(password, this.password);
 };
 
 const userModel = mongoose.model("users", userSchema);

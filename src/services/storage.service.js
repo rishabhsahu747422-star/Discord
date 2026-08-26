@@ -1,12 +1,14 @@
-import Imagekit from "imagekit";
+import Imagekit from "Imagekit";
+import dotenv from "dotenv";
+dotenv.config();
 
 const storageInstance = new Imagekit({
-  urlendpoint,
-  privateKey,
-  publicKey,
+  urlEndpoint: process.env.IMG_URL_ENDPOINT,
+  privateKey: process.env.IMG_PRIVATE_KEY,
+  publicKey: process.env.IMG_PUBLIC_KEY,
 });
 
-const sendFiles = async (files, fileName) => {
+const sendFiles = async (file, fileName) => {
   let obj = {
     file,
     fileName,
