@@ -3,6 +3,7 @@ import userModel from "../models/user.model.js";
 import sendFiles from "../services/storage.service.js";
 import { generateOtp } from "../utils/otp.js";
 import { generateToken } from "../utils/token.js";
+import bcrypt from "bcrypt";
 
 export const register = async (req, res) => {
   const { username, email, password, dob, fullname, mobile_no } = req.body;

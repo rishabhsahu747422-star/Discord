@@ -6,6 +6,7 @@ import {
   login,
   logout,
   register,
+  resetPassword,
 } from "../controllers/auth.controller.js";
 import passport from "passport";
 
@@ -13,9 +14,10 @@ const router = express.Router();
 
 router.post("/register", upload.single("image"), register);
 router.post("/login", login);
+
 router.post(
   "google",
-  passport.authenticate("google", { scope: [Profile, email] }),
+  passport.authenticate("google", { scope: ["Profile", "email"] }),
 ); //is line ka matlab samjhna h
 
 router.post(
@@ -27,5 +29,6 @@ router.post(
 router.post("/logout", logout);
 
 router.post("/forget-password", forgetPassword);
+router.post("/reset-password", resetPassword);
 
 export default router;
