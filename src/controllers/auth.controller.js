@@ -1,5 +1,6 @@
 import redis from "../config/redis.js";
 import userModel from "../models/user.model.js";
+import sendEmail from "../services/email.service.js";
 import sendFiles from "../services/storage.service.js";
 import { generateOtp } from "../utils/otp.js";
 import { generateToken } from "../utils/token.js";
