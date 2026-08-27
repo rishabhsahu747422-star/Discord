@@ -7,6 +7,7 @@ import {
   logout,
   register,
   resetPassword,
+  verifyOtp,
 } from "../controllers/auth.controller.js";
 import passport from "passport";
 
@@ -29,6 +30,8 @@ router.post(
 router.post("/logout", logout);
 
 router.post("/forget-password", forgetPassword);
+router.post("/verify-otp", verifyOtp);
+
 router.post("/reset-password", resetPassword);
 
 export default router;
