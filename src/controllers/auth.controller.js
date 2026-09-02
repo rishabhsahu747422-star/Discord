@@ -216,7 +216,7 @@ export const forgetPassword = async (req, res) => {
 
   const hashedOtp = bcrypt.hashSync(otp, 10);
 
-  await redis.set(`hasedOtp_reset_pass_${email}`, hashedOtp, "EX", 10 * 60);
+  await redis.set(`hashedOtp_reset_pass_${email}`, hashedOtp, "EX", 10 * 60);
 
   await sendEmail(
     user.email,
@@ -261,7 +261,7 @@ export const verifyOtp = async (req, res) => {
       message: "OTP is Expired ",
     });
 
-  const isValid = brcrypt.compaareSync(otp, hashedOtp);
+  const isValid = bcrypt.compareSync(otp, hashedOtp);
 
   if (!isValid)
     return res.status(400).json({
@@ -309,7 +309,7 @@ export const resetPassword = async (req, res) => {
   const user = await userModel.findOne({ email }).select("password");
 
   if (!user)
-    returnres.status(400).json({
+    return res.status(400).json({
       success: false,
       message: "User not found",
     });
