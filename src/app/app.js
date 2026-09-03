@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import authRoute from "../routes/auth.routes.js";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-
+import serverRoute from "../routes/server.routes.js";
 const app = express();
 
 app.use(passport.initialize());
@@ -26,5 +26,6 @@ passport.use(
 );
 
 app.use("/api/auth", authRoute);
+app.use("/api/server", serverRoute);
 
 export default app;
