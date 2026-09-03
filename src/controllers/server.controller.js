@@ -106,7 +106,6 @@ export const updateServer = async (req, res) => {
     console.log(error.message);
   }
 };
-
 export const getAllServer = async (req, res) => {
   try {
     const user = await userModel.findById(req.user._id).populate("server");
@@ -154,6 +153,25 @@ export const joinServer = async (req, res) => {
     return res
       .status(200)
       .json(new ApiResponse(200, server, "server join successfully"));
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+export const leaveServer = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = userModel.findByIdAndUpdate(
+      req.user._id,
+      { $pull: { server: id } },
+      { new: true },
+    );
+    if (!user) {
+      throw new ApiError(400, "User not found");
+    }
+    return res
+      .status(200)
+      .json(new ApiResponse(200, server, "User left successfully"));
   } catch (error) {
     console.log(error.message);
   }
